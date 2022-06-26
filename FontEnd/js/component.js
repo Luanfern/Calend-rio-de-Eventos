@@ -12,6 +12,8 @@ class Component{
         const responseCss = await fetch(this.arqCss);
         var contentCss = await responseCss.text();
 
+        console.log(this.arqHtml);
+
         var ret = {
             "tag": this.tag,
             "contentHtml": contentHtml,
