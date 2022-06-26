@@ -1,0 +1,233 @@
+#content{
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+    max-width: 1080px;
+    margin-top: 80px;
+}
+
+.title{
+    font-size: 22px;
+}
+
+.input{
+    width: 100%;
+    height: 35px;
+    margin: 5px 0;
+    border-radius: 5px;
+    padding: 0 5px;
+    border: 1px solid rgba(104, 103, 103, 0.582);
+}
+
+.btn{
+    height: 45px;
+    line-height: 40px;
+    padding: 0 15px;
+    background-color: #11175e;
+    border: 1px solid #11175e;
+    border-radius: 8px;
+    color: white;
+}
+
+.large-element{
+    width: 100%;
+}
+
+.detail-space{
+    height: 5px;
+}
+
+.detail-divisor{
+    margin: 1px 0 ;
+    height: 1px;
+    width: 100%;
+    background-color: rgba(133, 130, 130, 0.164);
+}
+
+#serach-area{
+    width: 90%;
+    height: 70px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.158);
+    background-color: white;
+    border-radius: 5px;
+    padding: 0px 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.icon{
+    height: 40px;
+    width: 45px;
+    background-color: white;
+    border: 0px solid white;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.158);
+    border-radius: 20px;
+    color: #11175e;
+    line-height: 45px;
+    margin: 10px;
+}
+
+.divisor{
+    margin: 25px 0 ;
+    height: 1px;
+    width: 100%;
+    background-color: rgba(133, 130, 130, 0.514);
+}
+
+#alerts{
+    position: fixed;
+    left: calc(50% - 100px);
+    top: 80px;
+    z-index: 1052;
+}
+
+#genericModal{
+    z-index: 1051;
+}
+
+.card-top{
+    display: flex;
+    justify-content: center;
+    padding: 0 10px;
+}
+
+.description{
+    margin: 0 5px;
+    font-size: 11px;
+    color: rgba(133, 132, 132, 0.658);
+}
+
+.author-event{
+    color: rgba(56, 56, 56, 0.863);
+}
+
+.informations-hour-date{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    padding: 0 10px;
+}
+
+.date-event-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+
+.more-option-card-event{
+    width: calc(50% - 1px);
+    height: 45px;
+    color: white;
+    text-align: center;
+    line-height: 40px;
+    text-decoration: none;
+}
+
+.default-event{
+    background-color: #11175e;
+}
+
+.delete-event{
+    background-color: red;
+}
+
+.update-event{
+    background-color: rgb(27, 164, 255);
+}
+
+.options-card-event{
+    width: 100%;
+    height: 45px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.more-option-card-event:hover{
+    text-decoration: none;
+    background-color: #ffffff;
+    color: #000;
+    transition: 150ms linear;
+}
+
+.list-events{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+}
+
+.card-event{
+    left: 0;
+    margin: 5px 10px;
+    padding-top: 5px;
+    overflow: hidden;
+    width: 45%;
+    height: 250px;
+    min-width: 290px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.158);
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.modalsevent-content{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+}
+
+@keyframes eventCreatedAnimate {
+    from {background-color: white;}
+    to {background-color: #90ee908f;}
+  }
+
+@keyframes eventUpdatedAnimate {
+    from {background-color: white;}
+    to {background-color: #68d7f3a2;}
+  }
+
+.animation-new-Event-created{
+    background-color: white;
+    animation-name: eventCreatedAnimate;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+.animation-new-Event-updated{
+    background-color: white;
+    animation-name: eventUpdatedAnimate;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;   
+}
+
+.deleting-event{
+    background-color: rgba(243, 62, 62, 0.712);
+}
+
+@media screen and (max-width: 600px){
+    .card-event{
+        width: 95%;
+    }
+}
+
+@media screen and (min-width: 601px) and (max-width: 800px){
+    .card-event{
+        width: 85%;
+    }
+}
