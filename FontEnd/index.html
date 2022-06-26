@@ -1,21 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="imagem/png" href="assets/images/logo.png" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="imagem/png" href="assets/images/logo.png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+  <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+  <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 
-    <title>Calendário de Eventos</title>
+
+  <title>Calendário de Eventos</title>
 </head>
+
 <body>
-    <app-header></app-header>
-    <script type="module" src="js/template_controller.js"></script>
+  <div id="alerts"></div>
+  <app-header></app-header>
+  <div id="content">
+    <app-content></app-content>
+  </div>
+
+  <!-- Modal Default -->
+  <div class="modal fade" id="genericModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body modal-body-default">
+        </div>
+        <div class="modal-footer modal-footer-default">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Create -->
+  <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle"><b>Criação de</b> <b><i>Evento</i></b></h5>
+          <button type="button" class="close close-form-create-event" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body modalsevent-content">
+          <form id="newevent-form">
+            <input class="input" type="text" name="title" id="title" placeholder="title">
+            <textarea style="height: 150px;" class="input" type="text" name="description" id="description"
+              placeholder="description"></textarea>              
+            <p class="day-1"><b>DIA 1</b></p>
+            <div class="day-1">Dia do Evento: </div><input class="input" name="date-1" id="date-1" type="date">
+            <div class="day-1">Início: </div><input class="input" name="time-inicio-1" id="time-inicio-1" type="time">
+            <div class="day-1">Termino: </div><input class="input" name="time-termino-1" id="time-termino-1" type="time">
+          </form>
+          <button class="icon add-day-new-event" type="button">
+            <ion-icon name="add" size="small"></ion-icon>
+          </button>
+          <br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary close-form-create-event" data-dismiss="modal">Fechar</button>
+          <button class="btn btn-primary" type="button"><p class="btn-create-event">Criar Evento</p></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Update -->
+  <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateModal">Editar Evento: </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body modalsevent-content">
+          <form id="updateevent-form">
+          </form>
+          <button class="icon add-day-update-event" type="button">
+            <ion-icon  name="add" size="small"></ion-icon>
+          </button>
+          <br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <button type="button" class="btn btn-primary btn-update-work">Atualizar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+  <script type="module" src="js/template_controller.js"></script>
+  <script type="module" src="js/controller.js"></script>
+  <script type="module" src="js/manipulations.js"></script>
+  </div>
 </body>
+
 </html>
+
+
+
+
+<!-- 
+
+
+update dia 1 não carrega os values - (BUG)
+
+tela de saiba mais
+
+aplicar ações da model no controller (eventos)
+
+
+ -->
