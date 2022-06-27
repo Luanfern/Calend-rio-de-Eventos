@@ -1,4 +1,4 @@
-class MyEvents{
+class Events{
     constructor(myId, search, data){
         this.myId = myId,
         this.search = search,
@@ -17,7 +17,6 @@ class MyEvents{
         const convertSearchUnique = parseInt(this.search);
         if (typeof convertSearchUnique === 'number') {
             const ret = '{"id": 1, "title": "title1", "description": "description1description1description1description1", "author": "authorName1", "datestimes": [{"day":"2022-06-27", "inicio":"00:00", "termino":"00:00"}, {"day":"2022-06-28", "inicio":"00:00", "termino":"00:00"}]}';
-            console.log('correct!');
             return JSON.parse(ret);
         }
     }
@@ -35,4 +34,4 @@ class MyEvents{
     }
 }
 
-export{MyEvents}
+export{Events}
