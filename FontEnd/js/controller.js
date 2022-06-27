@@ -2,8 +2,8 @@ import { Login } from "./app/login.js";
 import { Cadastro }  from "./app/cadastro.js";
 import { showStatus }  from "./functions/showAlerts.js";
 import { saveAccountBrowser , verifyIsLogged, getAccount }  from "./functions/localStorage.js";
-import { MyEvents } from "./app/myEvents.js";
-import { loadEventsOnScreen, loadOneEventOnMyEvents, clearNewEventForm } from "./manipulations.js";
+import { Events } from "./app/Events.js";
+import { loadEventsOnScreen, loadOneEventOnMyEvents, clearNewEventForm, loadAboutUniqueEvent } from "./manipulations.js";
 
 //Codigo login
 $('body').on('click', 'button.btn-entrar-login', async function () {
@@ -69,18 +69,21 @@ function getEvents(hash) {
         console.log('carregar meus eventos');
     }
 
-    var getE = new MyEvents(getAccount()['id'] ?? '', '', '');
+    var getE = new Events(getAccount()['id'] ?? '', '', '');
     var rt = getE.listEvents();
     
     loadEventsOnScreen(screen ,rt['return']);
 }
+
+$('body').on('click', '.btn-novo-evento', function(){
+    $('.modalsevent-content').find("input[type=text], textarea").val("");
+});
 
 //create event
 $('body').on('click','.btn-create-event', function () {
     var str = $('form#newevent-form').serializeArray();
     var verifyEmpty = 0;
     for (let i = 0; i < str.length; i++) {
-        console.log(str[i]['value']);
          if (str[i]['value'] == '') {
              verifyEmpty++;
          }
@@ -123,7 +126,7 @@ $('body').on('click', '.btn-delete-sure-event', function () {
 $('body').on('click', '.btn-update-event', function () {
    var idEvent = $(this).attr('rel');
 
-   var getE = new MyEvents(getAccount()['id'] ?? '', idEvent, '');
+   var getE = new Events(getAccount()['id'] ?? '', idEvent, '');
    var rt = getE.getUniqueEvent();
 
    var moreOne;
@@ -142,10 +145,9 @@ $('body').on('click', '.btn-update-event', function () {
    });
 
    rt['datestimes'].map(function (data, i) {
-    $('#date-'+(i+1)).val(data['day']);
-    $('#time-inicio-'+(i+1)).val(data['inicio']);
-    $('#time-termino-'+(i+1)).val(data['termino']);
-    console.log($('#date-'+(i+1)).val());
+    $('#updateevent-form #date-'+(i+1)).val(data['day']);
+    $('#updateevent-form #time-inicio-'+(i+1)).val(data['inicio']);
+    $('#updateevent-form #time-termino-'+(i+1)).val(data['termino']);
    });
 
 
@@ -179,4 +181,10 @@ $('body').on('click', '.btn-update-work', function () {
 
 });
 
-export{getEvents}
+function getEventInformations(idEvent) {
+    var getE = new Events(getAccount()['id'] ?? '', idEvent, '');
+    var rt = getE.getUniqueEvent();
+    loadAboutUniqueEvent(rt);
+}
+
+export{getEvents, getEventInformations}
