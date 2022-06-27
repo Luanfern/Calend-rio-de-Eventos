@@ -1,6 +1,6 @@
 import * as component from "./component.js";
 import { verifyIsLogged, exit }  from "./functions/localStorage.js";
-import {getEvents} from "./controller.js";
+import {getEvents, getEventInformations} from "./controller.js";
 
 $(window).on('hashchange', function () {
     changeContentHash();
@@ -13,9 +13,16 @@ function changeContentHash() {
     if (hash.length == 0) {
         hash = 'home';
     }
+
+     var acao = hash.split("=");
+
+    if (acao[0] == 'event') {
+        hash = acao[0];
+    }
     loadNewContent(hash);
 
     setTimeout(function () {
+        getEventInformations(acao[1]);
         getEvents(hash);
     }, 200);
 }
@@ -54,6 +61,10 @@ document.head.appendChild(document.createElement('style'));
 var stlSelection = document.querySelector('style');
 
 $(window).load(function () {
+
+    var hash = new URL(document.URL).hash;
+    hash = hash.replace('#', '');
+
     //jQuery LOAD function
     componentsLoad.map(function (comp) {
         var componentInfo = new component.Component(comp.tag, comp.html, comp.css);
@@ -63,6 +74,7 @@ $(window).load(function () {
     changeContentHash();
     setTimeout(function(){
         verifyIsLogged();
+        changeContentHash();
        }, 50);
 });
 
