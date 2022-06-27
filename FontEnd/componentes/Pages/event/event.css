@@ -1,0 +1,19 @@
+#content-event{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+}
+
+.topicTitle{
+    margin-top: 50px;
+    font-size: 18px;
+}
+
+.topicContent{
+    font-size: 14px;
+
+}
