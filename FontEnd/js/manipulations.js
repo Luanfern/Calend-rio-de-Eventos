@@ -63,7 +63,7 @@ function loadEventsOnScreen(screen, arrayInfo) {
         var stringAddedEvents = '<div class="card-event added-id-' + info['id'] + '"><div class="card-top"><div>' + info['title'] + '</div></div><div class="detail-divisor"></div><div class="description"><b>Descrição: </b>' + info['description'].substring(0, 20) + '...<p><b class="author-event">Criador: ' + info['author'] + '</b></p></div><div class="detail-divisor"></div><div class="informations-hour-date">' + datetime + '</div><div class="options-card-event"><div class="more-option-card-event btn-delete-event delete-event" rel="' + info['id'] + '|' + info['title'] + '" data-toggle="modal" data-target="#genericModal">Deletar</div><div class="more-option-card-event btn-update-event update-event" data-toggle="modal" data-target="#updateModal" rel="' + info['id'] + '">Editar</div></div></div>';
         var stringAddedHome = '<div class="card-event added-id-' + info['id'] + '"><div class="card-top"><div>' + info['title'] + '</div></div><div class="detail-divisor"></div><div class="description"><b>Descrição: </b>' + info['description'].substring(0, 20) + '...<p><b class="author-event">Criador: ' + info['author'] + '</b></p></div><div class="detail-divisor"></div><div class="informations-hour-date">' + datetime + '</div><div class="options-card-event"><a href="#event='+info['id']+'" class="more-option-card-event default-event about-more-event" rel="' + info['id'] + '"><div>Saiba mais</div></a><div class="more-option-card-event default-event" rel="' + info['id'] + '">Participar</div></div></div>';
         classAddList.append(screen == 'home' ? stringAddedHome : stringAddedEvents);
-    })
+    });
 }
 
 //Load event when create|update in events
@@ -118,7 +118,9 @@ function loadAboutUniqueEvent(arrayInfo) {
 
     var datetime = '';
     arrayInfo['datestimes'].map(function(date, i){
-           datetime += '<div class="date-event-card"><div><b>' + date['day'] + '</b></div><div>' + date['inicio'] + ' - ' + date['termino'] + '</div></div>';
+        for (var key in date) {
+           datetime += '<div class="date-event-card"><div><b>' + key + '</b></div><div>' + date[key] + '</div></div>';
+        }
     });
 
     for(var k in arrayInfo){
