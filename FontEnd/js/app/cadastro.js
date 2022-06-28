@@ -5,8 +5,7 @@ class Cadastro {
     }
 
     async cadastroAction() {
-        console.log(this.data);
-        const response = await fetch('http://localhost/TokenLab-projeto/BackEnd/', {
+        const response = await fetch('http://localhost/TokenLab-projeto/BackEnd/api/Cadastro/cadastroAction', {
             method: "POST",
             body: JSON.stringify(this.data),
             headers: {
@@ -15,11 +14,9 @@ class Cadastro {
         });
 
         var ret = await response.text();
-        var sts = response.status;
 
-        console.table(ret);
+        console.log(ret);
         return {
-            "status": sts,
             "return": JSON.parse(ret)
         };
     }
