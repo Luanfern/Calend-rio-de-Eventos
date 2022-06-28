@@ -1,3 +1,5 @@
+import {serealizeSend} from "../functions/adjustSend.js";
+
 class Login {
 
     constructor(data) {
@@ -7,7 +9,7 @@ class Login {
     async loginAction() {
         const response = await fetch('http://localhost/TokenLab-projeto/BackEnd/api/Login/loginAction', {
             method: 'POST',
-            body: JSON.stringify(this.data),
+            body: JSON.stringify(serealizeSend(this.data)),
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
             }

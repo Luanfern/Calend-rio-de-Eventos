@@ -58,7 +58,7 @@ class Events {
                 method: "POST",
                 body: JSON.stringify({
                     "idAuthor": this.myId,
-                    "data": this.data
+                    "data": serealizeSend(this.data)
                 }),
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8',
@@ -88,7 +88,7 @@ class Events {
         if (this.data != null && this.myId != null) {
             const response = await fetch('http://localhost/TokenLab-projeto/BackEnd/api/Event/updateEvent', {
                 method: "POST",
-                body: JSON.stringify(this.data),
+                body: JSON.stringify(serealizeSend(this.data)),
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8',
                 }
