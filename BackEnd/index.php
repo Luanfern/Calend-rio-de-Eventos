@@ -4,6 +4,8 @@ $router = $_GET['router'];
 $router = explode('/', $router);
 
 $postData = file_get_contents("php://input");
+/* $postData = json_decode($postData);
+$postData = json_encode($postData); */
 
 //$router[0] = onde fazer
 //$router[1] = ação para fazer
