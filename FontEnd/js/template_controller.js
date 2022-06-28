@@ -9,7 +9,6 @@ $(window).on('hashchange', function () {
 function changeContentHash() {
     var hash = new URL(document.URL).hash;
     hash = hash.replace('#', '');
-    console.log(hash);
     if (hash.length == 0) {
         hash = 'home';
     }
@@ -18,12 +17,18 @@ function changeContentHash() {
 
     if (acao[0] == 'event') {
         hash = acao[0];
+        loadNewContent(hash);
+        setTimeout( async function () {
+            $('#content-event').hide();
+            getEventInformations(acao[1]);
+        }, 10);
+        return;
     }
+
     loadNewContent(hash);
 
-    setTimeout(function () {
-        getEventInformations(acao[1]);
-        getEvents(hash);
+    setTimeout( async function () {
+        await getEvents(hash);
     }, 200);
 }
 
@@ -71,7 +76,6 @@ $(window).load(function () {
         var retContent = componentInfo.fileContent();
         loadOnTags(retContent);
     });
-    changeContentHash();
     setTimeout(function(){
         verifyIsLogged();
         changeContentHash();
