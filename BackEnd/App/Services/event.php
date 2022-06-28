@@ -1,5 +1,7 @@
 <?php
 
+require __DIR__.'/../models/event.php';
+
 class Event{
 
     //[] => url param | [] => post param
@@ -9,8 +11,20 @@ class Event{
             //erro = Sem eventos para mostrar. -> return = ''
             //ok = Eventos para mostrar. -> return = lista de eventos
 
-            $dados['status'] = 'ok';
-            $dados['return'] = json_decode('[{"id": 1, "title": "dasdasdasd", "description": "description1description1description1description1", "author": "authorName1", "datestimes": [{"2022-06-27":"00:00 até 00:00"}, {"2022-06-28":"00:00 até 00:00"}]}, {"id": 2, "title": "title2", "description": "description1description1description1description1", "author": "authorName1", "datestimes": [{"2022-06-27":"00:00 até 00:00"}, {"2022-06-28":"00:00 até 00:00"}]}, {"id": 3, "title": "title3", "description": "description1description1description1description1", "author": "authorName1", "datestimes": [{"2022-06-27":"00:00 até 00:00"}, {"2022-06-28":"00:00 até 00:00"}]}]');
+            try {
+                $result = EventModel::getAll($idAccount);
+                if (count($result) == 0) {
+                    $dados['status'] = 'erro';
+                    $dados['return'] = 'vazio';
+                }else{
+                    $dados['status'] = 'ok';
+                    $dados['return'] = $result;
+                }
+            } catch (\Throwable $th) {
+                $dados['status'] = 'erro';
+                $dados['return'] = 'Erro de conexão';
+            }
+
             $dados = json_encode($dados);
             echo $dados;
 
@@ -21,9 +35,21 @@ class Event{
 
             //erro = Sem evento. -> return = ''
             //ok = Evento para mostrar. -> return = evento
+            
+            try {
+                $result = EventModel::get($idUnique);
+                if (count($result) == 0) {
+                    $dados['status'] = 'erro';
+                    $dados['return'] = 'Sem evento';
+                }else{
+                    $dados['status'] = 'ok';
+                    $dados['return'] = $result;
+                }
+            } catch (\Throwable $th) {
+                $dados['status'] = 'erro';
+                $dados['return'] = 'Erro de conexão';
+            }
 
-            $dados['status'] = 'ok';
-            $dados['return'] = json_decode('{"id": 1, "title": "dasdasdasd", "description": "description1description1description1description1", "author": "authorName1", "datestimes": [{"2022-06-27":"00:00 até 00:00"}, {"2022-06-28":"00:00 até 00:00"}]}');
             $dados = json_encode($dados);
             echo $dados;
 
