@@ -25,6 +25,7 @@ import {
 //Codigo login
 $('body').on('click', 'button.btn-entrar-login', async function () {
     var str = $("form#login-form").serializeArray();
+    console.log(str);
 
     var loginString = $('#login').val();
     var passwordString = $('#password').val();
@@ -195,9 +196,8 @@ $('body').on('click', '.btn-update-event', async function () {
     $('.modalsevent-content').prepend('<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>');
     $('#updateevent-form').html('<input class="input" type="hidden" name="id" id="id"><input class="input" type="text" name="title" id="title" placeholder="title"><textarea style="height: 150px;" class="input" type="text" name="description" id="description" placeholder="description"></textarea>');
 
-    rt['datestimes'].map(function (data, i) {
+    JSON.parse(rt['datestimes']).map(function (data, i) {
         moreOne = i + 1;
-        console.log(moreOne);
         $('#updateevent-form').append('<p><b>DIA ' + moreOne + '</b></p>Dia do Evento: <input class="input data-camp-for-count" name="date-' + moreOne + '" id="date-' + moreOne + '" type="date">Início: <input class="input" name="time-inicio-' + moreOne + '" id="time-inicio-' + moreOne + '" type="time">Termino: <input class="input" name="time-termino-' + moreOne + '" id="time-termino-' + moreOne + '" type="time">');
     });
 
@@ -207,7 +207,7 @@ $('body').on('click', '.btn-update-event', async function () {
         $('#updateevent-form #' + camps['name']).val(rt[camps['name']]);
     });
 
-    rt['datestimes'].map(function (data, i) {
+    JSON.parse(rt['datestimes']).map(function (data, i) {
         for (var key in data) {
             $('#updateevent-form #date-' + (i + 1)).val(key);
             var timeSplit = data[key].split(' até ');
@@ -263,11 +263,14 @@ async function getEventInformations(idEvent) {
         var rt = await getE.getUniqueEvent();
         if (rt['status'] == 'erro') {
             $('#loading-informations-event').html('<br><br><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div><br><p>Erro ao carregar Evento. Tetando novamente...</p>');
-            await getEventInformations(idEvent);
+            setInterval(async function () {
+                await getEventInformations(idEvent);
+            }, 500);
         } else {
             loadAboutUniqueEvent(rt['return']);
         }
     } catch (error) {
+        console.log(error);
         showStatus('Erro inesperado aconteceu...', 'danger');
     }
 }
