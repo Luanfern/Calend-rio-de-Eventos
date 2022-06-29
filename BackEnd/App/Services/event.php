@@ -60,9 +60,38 @@ class Event{
 
             //erro = Evento ja criado -> id = 0
             //ok = cadastro realizado com sucesso. -> id = id do banco
+            $data = json_decode($data, true);
+            $dados = $data['data'];
+            $newArray['idAuthor'] =str_replace('"','',$data['idAuthor']);
+            $newArray['title'] =str_replace('"','',$dados['title']);
+            $newArray['description'] =str_replace('"','',$dados['description']);
+            unset($dados['title'], $dados['description']);
+            $arrayDateTemp = [];
+            $index = 0;
+            foreach ($dados as $key => $dates) {
+                $index++;
+                array_push($arrayDateTemp, json_encode($dates));
+                if ($index % 3 == 0) {
+                    $datestimes[][str_replace('"', '', $arrayDateTemp[0])] = str_replace('"', '', $arrayDateTemp[1])." at&eacute; ".str_replace('"', '', $arrayDateTemp[2]);
+                    $arrayDateTemp = [];
+                }
+            }
+            $newArray['datestimes'] = json_encode($datestimes);
+            unset($dados);
+            try {
+                $result = EventModel::post($newArray);
+                if ($result != 0) {
+                    $dados['status'] = 'ok';
+                    $dados['idEvent'] = $result;
+                }else {
+                    $dados['status'] = 'erro';
+                    $dados['idEvent'] = '0';
+                }
+            } catch (\Throwable $th) {
+                $dados['status'] = 'erro';
+                $dados['return'] = 'Erro de conexão';
+            }
 
-            $dados['status'] = 'ok';
-            $dados['idEvent'] = '1';
             $dados = json_encode($dados);
             echo $dados;
 
@@ -74,8 +103,17 @@ class Event{
 
             //erro = Erro ao deletar
             //ok = Deletado com sucesso
+            try {
+                $result = EventModel::delete($idUnique);
+                if ($result > 0) {
+                    $dados['status'] = 'ok';                    
+                }else{
+                    $dados['status'] = 'erro';
+                }
+            } catch (\Throwable $th) {
+                throw $th;
+            }
 
-            $dados['status'] = 'ok';
             $dados = json_encode($dados);
             echo $dados;
 
@@ -87,8 +125,35 @@ class Event{
 
             //erro = Erro ao atualizar evento
             //ok = atualização realizada com sucesso
+            $data = json_decode($data, true);
+            $dados = $data;
+            $newArray['id'] =str_replace('"','',$dados['id']);
+            $newArray['title'] =str_replace('"','',$dados['title']);
+            $newArray['description'] =str_replace('"','',$dados['description']);
+            unset($dados['title'], $dados['description'], $dados['id']);
+            $arrayDateTemp = [];
+            $index = 0;
+            foreach ($dados as $key => $dates) {
+                $index++;
+                array_push($arrayDateTemp, json_encode($dates));
+                if ($index % 3 == 0) {
+                    $datestimes[][str_replace('"', '', $arrayDateTemp[0])] = str_replace('"', '', $arrayDateTemp[1])." at&eacute; ".str_replace('"', '', $arrayDateTemp[2]);
+                    $arrayDateTemp = [];
+                }
+            }
+            $newArray['datestimes'] = json_encode($datestimes);
+            unset($dados);
+            try {
+                $result = EventModel::update($newArray);
+                if ($result > 0) {
+                    $dados['status'] = 'ok';
+                }else {
+                    $dados['status'] = 'erro';
+                }
+            } catch (\Throwable $th) {
+                $dados['status'] = 'erro';
+            }
 
-            $dados['status'] = 'ok';
             $dados = json_encode($dados);
             echo $dados;
 
