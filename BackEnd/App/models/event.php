@@ -35,4 +35,55 @@ class EventModel{
             echo $th;
         }
     }
+
+    public static function post($data){
+        try {
+            $con = Connection::doConnection();
+            $sql = "INSERT INTO eventos(title, description, author, datestimes) VALUES (?,?,?,?)";
+            $stmt = $con->prepare($sql);
+            $stmt->bindValue(1, $data['title']);
+            $stmt->bindValue(2, $data['description']);
+            $stmt->bindValue(3, $data['idAuthor']);
+            $stmt->bindValue(4, $data['datestimes']);
+            $stmt->execute();
+
+            return $con->lastInsertId();
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public static function delete($idDelete){
+        try {
+            $con = Connection::doConnection();
+            $sql = 'DELETE FROM `eventos` WHERE id = :id';
+            $stmt = $con->prepare($sql);
+            $stmt->bindValue(":id", $idDelete);
+            $stmt->execute();
+
+            return $stmt->rowCount();
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public static function update($data){
+        try {
+            $con = Connection::doConnection();
+            $sql = "UPDATE `eventos` SET `title`= ?,`description`= ?,`datestimes`= ? WHERE id = ?";
+            $stmt = $con->prepare($sql);
+            $stmt->bindValue(1, $data['title']);
+            $stmt->bindValue(2, $data['description']);
+            $stmt->bindValue(3, $data['datestimes']);
+            $stmt->bindValue(4, $data['id']);
+            $stmt->execute();
+
+            return $stmt->rowCount();
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }
