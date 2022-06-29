@@ -1,3 +1,6 @@
+import {serealizeSend} from "../functions/adjustSend.js";
+
+
 class Events {
     constructor(myId, search, data) {
         this.myId = myId,
@@ -65,7 +68,7 @@ class Events {
                 }
             });
             var ret = await response.text();
-            console.log(JSON.parse(ret));
+            console.log(ret);
             return JSON.parse(ret);
         }
     }
