@@ -57,7 +57,8 @@ function loadEventsOnScreen(screen, arrayInfo) {
         var datetime = '';
         JSON.parse(info['datestimes']).map(function (info2, i2) {
             for (var key in info2) {
-                datetime += '<div class="date-event-card"><div><b>' + key + '</b></div><div>' + info2[key] + '</div></div>';
+                var datart = key.split('-');
+                datetime += '<div class="date-event-card"><div><b>' + datart[2]+'/'+datart[1] + '</b></div><div>' + info2[key] + '</div></div>';
             }
         });
         var stringAddedEvents = '<div class="card-event added-id-' + info['id'] + '"><div class="card-top"><div>' + info['title'] + '</div></div><div class="detail-divisor"></div><div class="description"><b>Descrição: </b>' + info['description'].substring(0, 20) + '...<p><b class="author-event">Criador: ' + info['authorName'] + '</b></p></div><div class="detail-divisor"></div><div class="informations-hour-date">' + datetime + '</div><div class="options-card-event"><div class="more-option-card-event btn-delete-event delete-event" rel="' + info['id'] + '|' + info['title'] + '" data-toggle="modal" data-target="#genericModal">Deletar</div><div class="more-option-card-event btn-update-event update-event" data-toggle="modal" data-target="#updateModal" rel="' + info['id'] + '">Editar</div></div></div>';
@@ -78,7 +79,8 @@ function loadOneEventOnMyEvents(arrayInfo, idEvent, isCreated) {
     datestimes.map(function(date, i){
         oneDateInfo.push(date);
         if ((i+1) % 3 == 0) {
-            datetime += '<div class="date-event-card"><div><b>' + oneDateInfo[0]['value'] + '</b></div><div>' + oneDateInfo[1]['value'] + ' - ' + oneDateInfo[2]['value'] + '</div></div>';
+            var datart = oneDateInfo[0]['value'].split('-');
+            datetime += '<div class="date-event-card"><div><b>' + datart[2]+'/'+datart[1] + '</b></div><div>' + oneDateInfo[1]['value'] + ' - ' + oneDateInfo[2]['value'] + '</div></div>';
             oneDateInfo = [];
         }
     });
@@ -119,7 +121,8 @@ function loadAboutUniqueEvent(arrayInfo) {
     var datetime = '';
     JSON.parse(arrayInfo['datestimes']).map(function(date, i){
         for (var key in date) {
-           datetime += '<div class="date-event-card"><div><b>' + key + '</b></div><div>' + date[key] + '</div></div>';
+            var datart = key.split('-');
+           datetime += '<div class="date-event-card"><div><b>' + datart[2]+'/'+datart[1]  + '</b></div><div>' + date[key] + '</div></div>';
         }
     });
 
