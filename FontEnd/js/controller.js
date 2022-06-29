@@ -88,7 +88,7 @@ async function getEvents(hash) {
     var screen = hash ?? 'home';
     if (hash == 'home' || hash == null) {
         console.log('carregar eventos gerais');
-        await loadEvents(screen);
+        await loadEvents(screen, '');
     } else if (hash == 'events') {
         console.log('carregar meus eventos');
         await loadEvents(screen, getAccount()['id']);
@@ -99,16 +99,22 @@ async function loadEvents(screen, idAccountMyEvents = '') {
     var getE = new Events(idAccountMyEvents, '', '');
     try {
         var rt = await getE.listEvents();
+        console.log(rt['status']);
         if (rt['status'] == 'erro') {
-            var classAddList = $('.list-events');
-            classAddList.html('<br><br><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div><br><p>Erro ao buscar dados. Tetando novamente...</p>');
-            loadEvents(idAccountMyEvents);
+            var quantityEvents = document.querySelector('.list-events');
+            quantityEvents.innerHTML = "<p id='not-created-event-for-me'>Você não criou nenhum Evento ainda <br> clique no botão acima para começar!</p>";
+                
         } else {
             loadEventsOnScreen(screen, rt['return']);
         }
     } catch (error) {
         console.log(error);
         showStatus('Erro inesperado aconteceu...', 'danger');
+        var classAddList = $('.list-events');
+            classAddList.html('<br><br><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div><br><p>Erro ao buscar dados. Tetando novamente...</p>');
+        setInterval(async function () {
+            await loadEvents(screen, idAccountMyEvents);
+        }, 2500);
     }
 }
 
@@ -136,6 +142,7 @@ $('body').on('click', '.btn-create-event', async function () {
                 loadOneEventOnMyEvents(str, rt['idEvent'], true);
                 clearNewEventForm();
                 $('#createModal').modal('hide');
+                $('#not-created-event-for-me').remove();
             }else{
                 showStatus('Evento já criado!', 'warning');
             }
@@ -168,7 +175,7 @@ $('body').on('click', '.btn-delete-sure-event', async function () {
                 $('.added-id-' + idCardEvent).remove();
                 var quantityEvents = document.querySelector('.list-events');
                 if (quantityEvents.childElementCount == 0) {
-                    quantityEvents.innerHTML = "Você não criou nenhum Evento ainda <br> clique no botão acima para começar!";
+                    quantityEvents.innerHTML = "<p id='not-created-event-for-me'>Você não criou nenhum Evento ainda <br> clique no botão acima para começar!</p>";
                 }
             }, 400);
             $('#genericModal').modal('hide');
@@ -210,7 +217,7 @@ $('body').on('click', '.btn-update-event', async function () {
     JSON.parse(rt['datestimes']).map(function (data, i) {
         for (var key in data) {
             $('#updateevent-form #date-' + (i + 1)).val(key);
-            var timeSplit = data[key].split(' até ');
+            var timeSplit = data[key].split(' at&eacute; ');
             console.log(key);
             $('#updateevent-form #time-inicio-' + (i + 1)).val(timeSplit[0]);
             $('#updateevent-form #time-termino-' + (i + 1)).val(timeSplit[1]);
