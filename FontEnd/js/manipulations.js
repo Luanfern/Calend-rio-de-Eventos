@@ -62,8 +62,15 @@ function loadEventsOnScreen(screen, arrayInfo) {
             }
         });
         var stringAddedEvents = '<div class="card-event added-id-' + info['id'] + '"><div class="card-top"><div>' + info['title'] + '</div></div><div class="detail-divisor"></div><div class="description"><b>Descrição: </b>' + info['description'].substring(0, 20) + '...<p><b class="author-event">Criador: ' + info['authorName'] + '</b></p></div><div class="detail-divisor"></div><div class="informations-hour-date">' + datetime + '</div><div class="options-card-event"><div class="more-option-card-event btn-delete-event delete-event" rel="' + info['id'] + '|' + info['title'] + '" data-toggle="modal" data-target="#genericModal">Deletar</div><div class="more-option-card-event btn-update-event update-event" data-toggle="modal" data-target="#updateModal" rel="' + info['id'] + '">Editar</div></div></div>';
-        var stringAddedHome = '<div class="card-event added-id-' + info['id'] + '"><div class="card-top"><div>' + info['title'] + '</div></div><div class="detail-divisor"></div><div class="description"><b>Descrição: </b>' + info['description'].substring(0, 20) + '...<p><b class="author-event">Criador: ' + info['authorName'] + '</b></p></div><div class="detail-divisor"></div><div class="informations-hour-date">' + datetime + '</div><div class="options-card-event"><a href="#event='+info['id']+'" class="more-option-card-event default-event about-more-event" rel="' + info['id'] + '"><div>Saiba mais</div></a><div class="more-option-card-event default-event" rel="' + info['id'] + '">Participar</div></div></div>';
-        classAddList.append(screen == 'home' ? stringAddedHome : stringAddedEvents);
+        var stringAddedHome = '<div class="card-event added-id-' + info['id'] + '"><div class="card-top"><div>' + info['title'] + '</div></div><div class="detail-divisor"></div><div class="description"><b>Descrição: </b>' + info['description'].substring(0, 20) + '...<p><b class="author-event">Criador: ' + info['authorName'] + '</b></p></div><div class="detail-divisor"></div><div class="informations-hour-date">' + datetime + '</div><div class="options-card-event"><a href="#event='+info['id']+'" class="more-option-card-event default-event about-more-event" rel="' + info['id'] + '"><div>Saiba mais</div></a><div class="more-option-card-event participate-event default-event" rel="' + info['id'] + '">Participar</div></div></div>';
+        var stringAddedHomeCalendary = '<div class="card-event added-id-' + info['calendarioId'] + '"><div class="card-top"><div>' + info['title'] + '</div></div><div class="detail-divisor"></div><div class="description"><b>Descrição: </b>' + info['description'].substring(0, 20) + '...<p><bclass="author-event">Criador: ' + info['authorName'] + '</b></p></div><div class="detail-divisor"></div><div class="informations-hour-date">' + datetime + '</div><div class="options-card-event"><a href="#event='+info['id']+'"class="more-option-card-event default-event about-more-event" rel="' + info['id'] + '"><div>Saiba mais</div></a><div class="more-option-card-event calcel-participate-event delete-event"rel="' + info['calendarioId'] + '|' + info['title'] + '" data-toggle="modal" data-target="#genericModal">Não Participar</div></div></div>';
+        if (screen == 'home') {
+            classAddList.append(stringAddedHome);    
+        } else if(screen == 'calendary'){
+            classAddList.append(stringAddedHomeCalendary);
+        }else{
+            classAddList.append(stringAddedEvents);
+        }
     });
 }
 

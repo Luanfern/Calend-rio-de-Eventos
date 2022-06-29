@@ -92,14 +92,17 @@ async function getEvents(hash) {
     } else if (hash == 'events') {
         console.log('carregar meus eventos');
         await loadEvents(screen, getAccount()['id']);
+    } else if(hash == 'calendary'){
+        console.log('carregar meu calendario');
+        await loadEvents(screen, getAccount()['id']);
     }
 }
 
 async function loadEvents(screen, idAccountMyEvents = '') {
     var getE = new Events(idAccountMyEvents, '', '');
     try {
-        var rt = await getE.listEvents();
-        console.log(rt['status']);
+        var rt = await getE.listEvents(screen == 'calendary' ? true : false);
+        console.log(rt);
         if (rt['status'] == 'erro') {
             var quantityEvents = document.querySelector('.list-events');
             quantityEvents.innerHTML = "<p id='not-created-event-for-me'>Você não criou nenhum Evento ainda <br> clique no botão acima para começar!</p>";
@@ -112,9 +115,6 @@ async function loadEvents(screen, idAccountMyEvents = '') {
         showStatus('Erro inesperado aconteceu...', 'danger');
         var classAddList = $('.list-events');
             classAddList.html('<br><br><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div><br><p>Erro ao buscar dados. Tetando novamente...</p>');
-        setInterval(async function () {
-            await loadEvents(screen, idAccountMyEvents);
-        }, 2500);
     }
 }
 
@@ -181,6 +181,65 @@ $('body').on('click', '.btn-delete-sure-event', async function () {
             $('#genericModal').modal('hide');
         }else{
             showStatus('Erro ao deletar evento!', 'warning');
+        }
+    } catch (error) {
+        console.log(error);
+        showStatus('Erro inesperado aconteceu...', 'danger');
+    }
+});
+
+$('body').on('click', '.calcel-participate-event', async function(){
+    var info = $(this).attr('rel');
+    info = info.split('|');
+    $('.modal-body-default').html('<p>Deletar evento: <b>' + info[1] + '</b></p>');
+    $('.modal-footer-default').html('<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button><button type="button" class="btn btn-danger btn-calcel-sure-participate" rel="' + info[0] + '">Deletar</button>');
+});
+
+
+$('body').on('click', '.btn-calcel-sure-participate', async function () {
+    var idCardEvent = $(this).attr('rel');
+
+    var getE = new Events(getAccount()['id'] ?? '', idCardEvent);
+    try {
+        var rt = await getE.cancelParticipate();
+        if (rt['status'] == 'ok') {
+            $('.added-id-' + idCardEvent).hide('slow');
+            $('.added-id-' + idCardEvent).addClass('deleting-event');
+            setTimeout(function () {
+                $('.added-id-' + idCardEvent).remove();
+                var quantityEvents = document.querySelector('.list-events');
+                if (quantityEvents.childElementCount == 0) {
+                    quantityEvents.innerHTML = "<p id='not-created-event-for-me'>Você não está participando de nenhum evento!</p>";
+                }
+            }, 400);
+            $('#genericModal').modal('hide');
+        }else{
+            showStatus('Erro ao cancelar participação no evento!', 'warning');
+        }
+    } catch (error) {
+        console.log(error);
+        showStatus('Erro inesperado aconteceu...', 'danger');
+    }
+});
+
+$('body').on('click', '.participate-event', async function () {
+    var idCardEvent = $(this).attr('rel');
+
+    var getE = new Events(getAccount()['id'] ?? '','',idCardEvent);
+    try {
+        var rt = await getE.participate();
+        if (rt['status'] == 'ok') {
+            $('.added-id-' + idCardEvent).hide('slow');
+            showStatus('Participando - veja ele na aba Calendário!', 'success');
+            setTimeout(function () {
+                $('.added-id-' + idCardEvent).remove();
+                var quantityEvents = document.querySelector('.list-events');
+                if (quantityEvents.childElementCount == 0) {
+                    quantityEvents.innerHTML = "<p id='not-created-event-for-me'>Sem Mais Eventos para participar!</p>";
+                }
+            }, 650);
+        }else{
+            showStatus('Erro ao cancelar participação no evento!', 'warning');
         }
     } catch (error) {
         console.log(error);
@@ -270,7 +329,7 @@ async function getEventInformations(idEvent) {
         var rt = await getE.getUniqueEvent();
         if (rt['status'] == 'erro') {
             $('#loading-informations-event').html('<br><br><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div><br><p>Erro ao carregar Evento. Tetando novamente...</p>');
-            setInterval(async function () {
+            setTimeout(async function () {
                 await getEventInformations(idEvent);
             }, 500);
         } else {
